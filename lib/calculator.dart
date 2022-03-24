@@ -143,11 +143,11 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                           ),
                           style: _isLightMode
                               ? TextStyle(
-                                  fontSize: size * 60,
+                                  fontSize: size * 50,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black)
                               : TextStyle(
-                                  fontSize: size * 60,
+                                  fontSize: size * 50,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white)),
                       SizedBox(
@@ -157,7 +157,7 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                           ? Text(
                               answer,
                               style: TextStyle(
-                                  fontSize: size * 40,
+                                  fontSize: size * 30,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.red.shade400),
                             )
@@ -165,7 +165,7 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                               ? Text(
                                   answer,
                                   style: TextStyle(
-                                    fontSize: size * 40,
+                                    fontSize: size * 30,
                                     fontWeight: FontWeight.w200,
                                     color: Colors.black,
                                   ),
@@ -178,7 +178,7 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                                     color: Colors.white,
                                   ),
                                 ),
-                      SizedBox(height: 20)
+                      // SizedBox(height: 20)
                     ],
                   ),
                 ),
