@@ -10,6 +10,7 @@ class CalculatorBody extends StatefulWidget {
 
 class _CalculatorBodyState extends State<CalculatorBody> {
   TextEditingController questionController = TextEditingController();
+  final _scrollController = ScrollController();
   String question = '';
   String answer = '';
   int count = 0;
@@ -109,6 +110,10 @@ class _CalculatorBodyState extends State<CalculatorBody> {
         questionController.text = question;
       }
     });
+    Future.delayed(Duration(milliseconds: 30)).then((value) {
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      _scrollController.jumpTo(maxScroll);
+    });
   }
 
   @override
@@ -135,9 +140,11 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                     children: [
                       SizedBox(height: 40),
                       TextField(
+                          textDirection: TextDirection.rtl,
                           controller: questionController,
+                          scrollController: _scrollController,
                           readOnly: true,
-                          textAlign: TextAlign.end,
+                          // textAlign: TextAlign.end,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
@@ -169,11 +176,12 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                                     fontWeight: FontWeight.w200,
                                     color: Colors.black,
                                   ),
+                                  textAlign: TextAlign.end,
                                 )
                               : Text(
                                   answer,
                                   style: TextStyle(
-                                    fontSize: size * 40,
+                                    fontSize: size * 30,
                                     fontWeight: FontWeight.w200,
                                     color: Colors.white,
                                   ),
