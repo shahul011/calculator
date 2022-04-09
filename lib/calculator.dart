@@ -140,11 +140,10 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                     children: [
                       SizedBox(height: 40),
                       TextField(
-                          textDirection: TextDirection.rtl,
                           controller: questionController,
                           scrollController: _scrollController,
                           readOnly: true,
-                          // textAlign: TextAlign.end,
+                          textAlign: TextAlign.end,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
