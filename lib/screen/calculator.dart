@@ -1,7 +1,7 @@
-import 'package:calculator/listitems.dart';
+import 'package:calculator/items.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'custom_button.dart';
+import '../widgets/custom_button.dart';
 
 class CalculatorBody extends StatefulWidget {
   @override

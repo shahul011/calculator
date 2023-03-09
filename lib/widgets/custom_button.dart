@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:calculator/bouncing.dart';
+import 'package:calculator/widgets/bouncing.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {

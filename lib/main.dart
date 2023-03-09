@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'calculator.dart';
+import 'screen/calculator.dart';
 
 void main() {
   runApp(const MyApp());
