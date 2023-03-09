@@ -24,92 +24,80 @@ class _CalculatorBodyState extends State<CalculatorBody> {
 
   evaluate(String variable) {
     setState(() {
-      if (variable == 'AC') {
-        question = '';
-        answer = '';
-        questionController.text = '';
-        count = 0;
-      } else if (variable == '⌫') {
-        question = question.substring(0, question.length - 1);
-        questionController.text = question;
-      } else if (variable == '( )') {
-        if (count == 0) {
-          question = question + '(';
+      switch (variable) {
+        case 'AC':
+          question = '';
+          answer = '';
+          questionController.text = '';
+          count = 0;
+          break;
+
+        case '⌫':
+          question = question.substring(0, question.length - 1);
           questionController.text = question;
+          break;
 
-          count++;
-        } else if (question.substring(question.length - 1, question.length) ==
-                '(' ||
-            question.substring(question.length - 1, question.length) ==
-                '[0-9]') {
-          question = question + '(';
-          questionController.text = question;
-
-          count++;
-        } else {
-          if (count >= 0) {
-            question = question + ')';
-            questionController.text = question;
-
+        case '( )':
+          if (count == 0 ||
+              RegExp(r'^[0-9)]$')
+                  .hasMatch(question.substring(question.length - 1))) {
+            question += '(';
+            count++;
+          } else if (question.endsWith('(')) {
+            question += '(';
+            count++;
+          } else {
+            question += ')';
             count--;
           }
-        }
-      } else if (variable == '=') {
-        for (int i = count; i >= 0; i--) {
-          if (count != 0) {
-            question = question + ')';
+          questionController.text = question;
+          break;
+
+        case '=':
+          for (int i = count; i > 0; i--) {
+            question += ')';
             count--;
           }
-        }
+          question = question.replaceAll('÷', '/').replaceAll('x', '*');
+          question = question.replaceAllMapped(RegExp(r'^0+(?!$)'), (m) => '');
+          question = question.replaceAll(')(', ')*(');
 
-        question = question
-            .replaceAll('÷', '/')
-            .replaceAll('x', '*')
-            .replaceAll(RegExp(r"^0+(?!$)"), '')
-            .replaceAll(')(', ')*(');
-
-        List<String> temp = question.split("").toList();
-        for (int i = 0; i < temp.length; i++) {
-          if (temp[i].contains(')') && i < temp.length - 1) {
-            if (temp[i + 1].contains(RegExp(r'^[0-9]+$'))) {
+          List<String> temp = question.split("").toList();
+          for (int i = 0; i < temp.length - 1; i++) {
+            if (temp[i].contains(')') &&
+                RegExp(r'^[0-9]+$').hasMatch(temp[i + 1])) {
               temp.insert(i + 1, '*');
+            } else if (temp[i].contains('(') &&
+                RegExp(r'^[0-9]+$').hasMatch(temp[i - 1])) {
+              temp.insert(i, '*');
             }
           }
-        }
-        for (int i = 1; i < temp.length; i++) {
-          if (temp[i].contains('(') &&
-              temp[i - 1].contains(RegExp(r'^[0-9]+$'))) {
-            temp.insert(i, '*');
-            i++;
-          }
-        }
+          question = temp.join('');
 
-        question = temp.toString();
-        question = question
-            .replaceAll('[', '')
-            .replaceAll(']', '')
-            .replaceAll(',', '')
-            .replaceAll(' ', '');
-        questionController.text = question;
-
-        try {
-          Parser p = Parser();
-          Expression exp = p.parse(question);
-          ContextModel cm = ContextModel();
-          double temp1 =
-              double.parse(exp.evaluate(EvaluationType.REAL, cm).toString());
-          answer = temp1.toStringAsFixed(3).replaceFirst(RegExp(r'\.?0*$'), '');
-        } catch (e) {
-          answer = 'Syntax error';
-          question = '';
           questionController.text = question;
-        }
-      } else {
-        question = question + variable;
-        answer = '';
-        questionController.text = question;
+
+          try {
+            Parser p = Parser();
+            Expression exp = p.parse(question);
+            ContextModel cm = ContextModel();
+            double temp1 = exp.evaluate(EvaluationType.REAL, cm);
+            answer =
+                temp1.toStringAsFixed(3).replaceFirst(RegExp(r'\.?0*$'), '');
+          } catch (e) {
+            answer = 'Syntax error';
+            question = '';
+            questionController.text = question;
+          }
+          break;
+
+        default:
+          question += variable;
+          answer = '';
+          questionController.text = question;
+          break;
       }
     });
+
     Future.delayed(Duration(milliseconds: 30)).then((value) {
       final maxScroll = _scrollController.position.maxScrollExtent;
       _scrollController.jumpTo(maxScroll);
