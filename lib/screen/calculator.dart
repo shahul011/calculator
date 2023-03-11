@@ -1,5 +1,6 @@
 import 'package:calculator/items.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:math_expressions/math_expressions.dart';
 import '../widgets/custom_button.dart';
 
@@ -200,6 +201,7 @@ class _CalculatorBodyState extends State<CalculatorBody> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
+                          HapticFeedback.lightImpact();
                           evaluate(items[index].text);
                         },
                         child: CustomButton(
