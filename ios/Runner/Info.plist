@@ -45,5 +45,11 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>armv7</string>
+		</array>
+		<key>UIHapticFeedbackEnabled</key>
+		<true/>
 	</dict>
 </plist>
